@@ -1,3 +1,8 @@
+body {
+    font-family: "Open Sans";
+    font-size: 12px;
+}
+
 .header .logo {
     position: absolute;
     top: 0;

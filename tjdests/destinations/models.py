@@ -28,7 +28,8 @@ class CollegeApp(models.Model):
     )
     applied = models.CharField(max_length=2, choices=TYPES, default="RD")
     RESULTS = (
-        ("NA", "Unknown"),
+        ("NA", "Applied"),
+        ("AT", "Attending"),
         ("AC", "Accepted"),
         ("RJ", "Rejected"),
         ("WL", "Waitlisted"),
@@ -39,9 +40,23 @@ class CollegeApp(models.Model):
     notified = models.DateField(blank=True)
     legacy = models.BooleanField(default=False)
     interview = models.BooleanField(default=False)
+    deferred = models.BooleanField(default=False)
+    waitlisted = models.BooleanField(default=False)
     recruited = models.CharField(max_length=100, blank=True)
     supplement = models.CharField(max_length=100, blank=True)
     comments = models.CharField(max_length=1000, blank=True)
+
+    @property
+    def applied_name(self):
+        types = {i[0]: i[1] for i in self.TYPES}
+        return types[self.applied] if self.applied in types else ""
+
+    @property
+    def result_name(self):
+        results = {i[0]: i[1] for i in self.RESULTS}
+        return results[self.result] if self.result in results else ""
+    
+    
 
     def __unicode__(self):
         return "{}".format(self.college)

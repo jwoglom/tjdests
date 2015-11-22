@@ -1,0 +1,128 @@
+{% extends "page_base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <style type="text/css">
+    .student-table {
+        width: 100%;
+    }
+
+    dl dt {
+        float: left;
+        padding-right: 5px;
+        font-weight: bold;
+    }
+
+    dl.sat2, dl.aps {
+        margin-top: 0;
+    }
+
+    table.fancy-table tbody tr .college-table tr {
+        background: transparent;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    {% with user=student.user %}
+        <span class="name">
+            <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+        </span>
+    {% endwith %}
+    <dl class="info">
+        <dt>Gender:</dt>
+        <dd>{{ student.gender }}</dd>
+        <dt>Race:</dt>
+        <dd>{{ student.race }}</dd>
+        {% if student.hispanic %}
+            <dt>Hispanic</dt>
+            <dd>Yes</dd>
+        {% endif %}
+        {% if student.international %}
+            <dt>International</dt>
+            <dd>Yes</dd>
+        {% endif %}
+
+        {% if student.gpa and student.gpa > 0%}
+            <dt>GPA:</dt>
+            <dd>{{ student.gpa }}</dd>
+        {% endif %}
+        {% if student.sat2400 %}
+            <dt>SAT 2400:</dt>
+            <dd>{{ student.sat2400 }}</dd>
+        {% endif %}
+        {% if student.sat1600 %}
+            <dt>SAT 1600:</dt>
+            <dd>{{ student.sat1600 }}</dd>
+        {% endif %}
+        {% if student.act %}
+            <dt>ACT:</dt>
+            <dd>{{ student.act }}</dd>
+        {% endif %}
+    </dl>
+    <b>SAT II:</b>
+    <dl class="sat2">
+        {% for t in student.sat2_set.all %}
+            <dt>{{ t.name }}:</dt>
+            <dd>{{ t.score }} ({{ t.year }})</dd>
+        {% empty %}
+            <dt>No SAT IIs</dt>
+            <dd>&nbsp;</dd>
+        {% endfor %}
+    </dl>
+    <b>AP Exams:</b>
+    <dl class="aps">
+        {% for t in student.apexam_set.all %}
+            <dt>AP {{ t.name }}:</dt>
+            <dd>{{ t.score }} ({{ t.year }}{% if t.took_class %}, <span title="Took Class">TC</span>{% endif %})</dd>
+        {% empty %}
+            <dt>No AP Exams</dt>
+            <dd>&nbsp;</dd>
+        {% endfor %}
+    </dl>
+    <b>Honors/Extracurriculars:</b> {{ student.honors }}
+    
+    <table class="college-table fancy-table">
+        <thead>
+            <tr>
+                <th>Decision</th>
+                <th>College</th>
+                <th>Program</th>
+                <th>App Type</th>
+                <th>Submitted</th>
+                <th>Notified</th>
+                <th>Legacy?</th>
+                <th>Interview?</th>
+                <th>Deferred?</th>
+                <th>Waitlisted?</th>
+                <th>Recruited?</th>
+                <th>Supplement</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in student.collegeapp_set.all %}
+            <tr>
+                <td>{{ c.result_name }}</td>
+                <th>{{ c.college.name }}</th>
+                <td>{{ c.program }}</td>
+                <td title="{{ c.applied_name }}">{{ c.applied }}</td>
+                <td>{{ c.submitted }}</td>
+                <td>{{ c.notified }}</td>
+                <td>{{ c.legacy }}</td>
+                <td>{{ c.interview }}</td>
+                <td>{{ c.deferred }}</td>
+                <td>{{ c.waitlisted }}</td>
+                <td>{{ c.recruited }}</td>
+                <td>{{ c.supplement }}</td>
+                <td>{{ c.comments }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <th colspan="2">No colleges</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
