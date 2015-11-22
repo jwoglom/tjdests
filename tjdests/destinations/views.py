@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.debug import sensitive_post_parameters
 from .models import User, Senior
 from .forms import AuthenticateForm
@@ -47,3 +47,11 @@ def students_view(request):
         "students": students
     }
     return render(request, "students.html", context)
+
+@login_required
+def student_view(request, student_id):
+    student = get_object_or_404(Senior, id=student_id)
+    context = {
+        "student": student
+    }
+    return render(request, "student.html", context)

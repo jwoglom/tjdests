@@ -22,9 +22,11 @@ from django.contrib import admin
 from destinations import views
 
 urlpatterns = [
-    url(r'^$', views.index_view),
-    url(r'^login$', views.login_view),
-    url(r'^students$', views.students_view),
+    url(r'^$', views.index_view, name='index'),
+    url(r'^login$', views.login_view, name='login'),
+    url(r'^accounts/login/$', views.login_view),
+    url(r'^students$', views.students_view, name='students'),
+    url(r'^student/(?P<student_id>\d+)?$', views.student_view, name='student'),
 
 
     url(r'^admin/', include(admin.site.urls)),

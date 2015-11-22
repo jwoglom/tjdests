@@ -1,13 +1,32 @@
 {% extends "page_base.html" %}
 
+{% block css %}
+    {{ block.super }}
+    <style type="text/css">
+    .student-table {
+        width: 100%;
+    }
+
+    dl dt {
+        float: left;
+        padding-right: 5px;
+        font-weight: bold;
+    }
+
+    table.fancy-table tbody tr .college-table tr {
+        background: transparent;
+    }
+    </style>
+{% endblock %}
+
 {% block content %}
     <table class="student-table fancy-table">
     <thead>
         <tr>
             <th>Name</th>
             <th>Info</th>
-            <th>SAT II/AP</th>
-            <th>APs</th>
+            <th>Scores</th>
+            <th>SAT II/APs</th>
             <th>Honors/Extracurriculars</th>
             <th>Colleges</th>
         </tr>
@@ -18,98 +37,78 @@
             <td>
             {% with user=student.user %}
                 <span class="name">
-                    {{ user.first_name }} {{ user.last_name }} ({{ student.gender }})
+                    <a href="{% url 'student' student.id %}">{{ user.first_name }} {{ user.last_name }}</a>
                     {% if student.email %}
                         <br />
                         {{ student.email }}
                     {% endif %}
                 </span>
-                <table class="student-table fancy-table">
-                    <tr>
-                        <th>Gender</th>
-                        <td>{{ student.gender }}</td>
-                    </tr>
-                    <tr>
-                        <th>Race</th>
-                        <td>{{ student.race }}</td>
-                    </tr>
+            </td>
+            <td>
+                <dl class="info">
+                    <dt>Gender:</dt>
+                    <dd>{{ student.gender }}</dd>
+                    <dt>Race:</dt>
+                    <dd>{{ student.race }}</dd>
                     {% if student.hispanic %}
-                    <tr>
-                        <th>Hispanic</th>
-                        <td>Yes</td>
-                    </tr>
+                        <dt>Hispanic</dt>
+                        <dd>Yes</dd>
                     {% endif %}
                     {% if student.international %}
-                    <tr>
-                        <th>International</th>
-                        <td>Yes</td>
-                    </tr>
+                        <dt>International</dt>
+                        <dd>Yes</dd>
                     {% endif %}
-                </table>
+                </dl>
             {% endwith %}
             </td>
             <td>
-                <table class="info-table fancy-table">
-                    {% if student.gpa %}
-                    <tr>
-                        <th>GPA</th>
-                        <td>{{ student.gpa }}</td>
-                    </tr>
+                <dl class="scores">
+                    {% if student.gpa and student.gpa > 0%}
+                        <dt>GPA:</dt>
+                        <dd>{{ student.gpa }}</dd>
                     {% endif %}
                     {% if student.sat2400 %}
-                    <tr>
-                        <th>SAT 2400</th>
-                        <td>{{ student.sat2400 }}</td>
-                    </tr>
+                        <dt>SAT 2400:</dt>
+                        <dd>{{ student.sat2400 }}</dd>
                     {% endif %}
                     {% if student.sat1600 %}
-                    <tr>
-                        <th>SAT 1600</th>
-                        <td>{{ student.sat1600 }}</td>
-                    </tr>
+                        <dt>SAT 1600:</dt>
+                        <dd>{{ student.sat1600 }}</dd>
                     {% endif %}
                     {% if student.act %}
-                    <tr>
-                        <th>ACT</th>
-                        <td>{{ student.act }}</td>
-                    </tr>
+                        <dt>ACT:</dt>
+                        <dd>{{ student.act }}</dd>
                     {% endif %}
-                </table>
+                </dl>
             </td>
             <td>
-                <table class="score-table fancy-table">
-                    {% for t in student.sat2_set %}
-                    <tr>
-                        <th>SAT II: {{ t.name }}</th>
-                        <th>{{ t.score }} ({{ t.year }})</th>
-                    </tr>
+                <dl class="sat2ap">
+                    {% for t in student.sat2_set.all %}
+                        <dt>{{ t.name }}:</dt>
+                        <dd>{{ t.score }} ({{ t.year }})</dd>
                     {% empty %}
-                    <tr>
-                        <th colspan="2">No SAT IIs</th>
-                    </tr>
+                        <dt>No SAT IIs</dt>
+                        <dd>&nbsp;</dd>
                     {% endfor %}
 
-                    {% for t in student.apexam_set %}
-                    <tr>
-                        <th>AP {{ t.name }}</th>
-                        <th>{{ t.score }}{% if t.took_class %}, Took Class{% endif %} ({{ t.year }})</th>
-                    </tr>
+                    {% for t in student.apexam_set.all %}
+                        <dt>AP {{ t.name }}:</dt>
+                        <dd>{{ t.score }} ({{ t.year }}{% if t.took_class %}, <span title="Took Class">TC</span>{% endif %})</dd>
                     {% empty %}
-                    <tr>
-                        <th colspan="2">No AP Exams</th>
-                    </tr>
+                        <dt>No AP Exams</dt>
+                        <dd>&nbsp;</dd>
                     {% endfor %}
-                </table>
+                </dl>
             </td>
             <td>
                 {{ student.honors }}
             </td>
             <td>
-                <table class="college-table fancy-table">
-                    {% for c in student.colleges %}
+                <table class="college-table">
+                    {% for c in student.collegeapp_set.all %}
                     <tr>
                         <td>{{ c.applied }}</td>
-                        <th>{{ c.college.name }} ({{ c.college.ceeb }})</th>
+                        <th>{{ c.college.name }}</th>
                     </tr>
                     {% empty %}
                     <tr>

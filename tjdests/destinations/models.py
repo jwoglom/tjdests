@@ -8,6 +8,12 @@ class College(models.Model):
     name = models.CharField(max_length=1000)
     ceeb = models.IntegerField(unique=True)
 
+    def __unicode__(self):
+        return "{}".format(self.name)
+
+    class Meta:
+        ordering = ["name"]
+
 
 class CollegeApp(models.Model):
     college = models.ForeignKey("College")
@@ -28,14 +34,17 @@ class CollegeApp(models.Model):
         ("WL", "Waitlisted"),
         ("DF", "Deferred")
     )
-    result = models.CharField(max_length=2, choices=TYPES, default="NA")
+    result = models.CharField(max_length=2, choices=RESULTS, default="NA")
     submitted = models.DateField(blank=True)
     notified = models.DateField(blank=True)
     legacy = models.BooleanField(default=False)
     interview = models.BooleanField(default=False)
-    recruited = models.CharField(max_length=100)
-    supplement = models.CharField(max_length=100)
-    comments = models.CharField(max_length=1000)
+    recruited = models.CharField(max_length=100, blank=True)
+    supplement = models.CharField(max_length=100, blank=True)
+    comments = models.CharField(max_length=1000, blank=True)
+
+    def __unicode__(self):
+        return "{}".format(self.college)
 
 
 class APExam(models.Model):
@@ -81,6 +90,9 @@ class APExam(models.Model):
     year = models.IntegerField()
     took_class = models.BooleanField(default=True)
 
+    def __unicode__(self):
+        return "{} ({})".format(self.name, self.score)
+
 
 class SAT2(models.Model):
     EXAMS = ("Literature",
@@ -108,6 +120,9 @@ class SAT2(models.Model):
     score = models.IntegerField()
     year = models.IntegerField()
 
+    def __unicode__(self):
+        return "{} ({})".format(self.name, self.score)
+
 
 class User(AbstractBaseUser):
     USERNAME_FIELD = "username"
@@ -115,6 +130,9 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     senior = models.OneToOneField("Senior", null=True)
+
+    def __unicode__(self):
+        return "{} {} ({})".format(self.first_name, self.last_name, self.username)
 
 class Senior(models.Model):
     email = models.CharField(max_length=100, blank=True)
@@ -130,3 +148,6 @@ class Senior(models.Model):
     honors = models.CharField(max_length=1000)
 
     colleges = models.ManyToManyField("College", through="CollegeApp")
+
+    def __unicode__(self):
+        return "{}".format(self.user)
