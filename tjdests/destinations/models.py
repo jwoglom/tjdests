@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 
@@ -9,7 +12,7 @@ class College(models.Model):
 class CollegeApp(models.Model):
     college = models.ForeignKey("College")
     program = models.CharField(max_length=250)
-    user = models.ForeignKey("User")
+    senior = models.ForeignKey("Senior")
     attending = models.BooleanField()
     TYPES = (
         ("RD", "Regular Decision"),
@@ -35,16 +38,75 @@ class CollegeApp(models.Model):
     comments = models.CharField(max_length=1000)
 
 
-class APTest(models.Model):
-    name = models.CharField(max_length=100)
-
-
 class APExam(models.Model):
-    aptest = models.ForeignKey("APTest")
-    user = models.ForeignKey("User")
+    EXAMS = ("Art History",
+             "Music Theory",
+             "Studio Art 2D",
+             "Studio Art 3D",
+             "Studio Art Drawing",
+             "Lang",
+             "Lit",
+             "Comparative Govt",
+             "European History",
+             "Human Geography",
+             "Macroeconomics",
+             "Microeconomics",
+             "Psychology",
+             "US Government",
+             "US History",
+             "World History",
+             "Calculus AB",
+             "Calculus BC",
+             "Comp Sci A",
+             "Comp Sci Principles",
+             "Statistics",
+             "Biology",
+             "Chemistry",
+             "Environmental Science",
+             "Physics C E&M",
+             "Physics C Mech",
+             "Physics 1",
+             "Physics 2",
+             "Chinese",
+             "French",
+             "German",
+             "Italian",
+             "Japanese",
+             "Latin",
+             "Spanish Lang",
+             "Spanish Lit")
+    name = models.CharField(max_length=100, choices=[(i, i) for i in EXAMS])
+    senior = models.ForeignKey("Senior")
     score = models.IntegerField()
     year = models.IntegerField()
     took_class = models.BooleanField(default=True)
+
+
+class SAT2(models.Model):
+    EXAMS = ("Literature",
+             "US History",
+             "World History",
+             "Math Level 1",
+             "Math Level 2",
+             "Biology/EM",
+             "Chemistry",
+             "Physics",
+             "French",
+             "French Listening",
+             "German",
+             "German Listening",
+             "Spanish",
+             "Spanish Listening",
+             "Modern Hebrew",
+             "Italian",
+             "Latin",
+             "Chinese Listening",
+             "Japanese Listening",
+             "Korean Listening")
+    name = models.CharField(max_length=100, choices=[(i, i) for i in EXAMS])
+    senior = models.ForeignKey("Senior")
+    score = models.IntegerField()
+    year = models.IntegerField()
 
 
 class User(AbstractBaseUser):
@@ -52,6 +114,9 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=30, unique=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+    senior = models.OneToOneField("Senior", null=True)
+
+class Senior(models.Model):
     email = models.CharField(max_length=100, blank=True)
     gender = models.CharField(max_length=1, choices=(("M", "Male"), ("F", "Female")))
     race = models.CharField(max_length=20)
@@ -65,4 +130,3 @@ class User(AbstractBaseUser):
     honors = models.CharField(max_length=1000)
 
     colleges = models.ManyToManyField("College", through="CollegeApp")
-    aps = models.ManyToManyField("APTest", through="APExam")

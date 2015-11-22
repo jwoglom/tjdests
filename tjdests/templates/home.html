@@ -1,0 +1,15 @@
+{% extends "page_base.html" %}
+
+{% block content %}
+    <p>Welcome to TJ Senior Destinations 2016, {{ request.user }}. This is intended to be a resource for:
+    <ul>
+        <li>the class of 2016 to share its progress in the admissions process with one another.</li>
+        <li>the class of 2016 to share its achievements and college destinations with others.</li>
+        <li>other classes as they prepare to apply for college.</li>
+    </ul>
+    <p>If you are a student at TJHSST, you can browse the student destinations using the links above.</p>
+    {% if not request.user.senior %}
+        <p>You cannot edit or submit destinations because you are not a senior.</p>
+    {% endif %}
+
+{% endblock %}

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 """tjdests URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -20,6 +23,7 @@ from destinations import views
 
 urlpatterns = [
     url(r'^$', views.index),
+    url(r'^login$', views.login),
 
 
     url(r'^admin/', include(admin.site.urls)),

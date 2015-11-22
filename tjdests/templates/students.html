@@ -1,0 +1,85 @@
+{% extends "page_base.html" %}
+
+{% block content %}
+    <table class="student-table fancy-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Info</th>
+            <th>SAT II/AP</th>
+            <th>APs</th>
+            <th>Honors/Extracurriculars</th>
+            <th>Colleges</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for student in students %}
+        <tr>
+            <td>
+            {% with user=student.user %}
+                <span class="name">
+                    {{ user.first_name }} {{ user.last_name }} ({{ student.gender }})
+                    {% if student.email %}
+                        <br />
+                        {{ student.email }}
+                    {% endif %}
+                </span>
+                <table class="student-table fancy-table">
+                    <tr>
+                        <th>Gender</th>
+                        <td>{{ student.gender }}</td>
+                    </tr>
+                    <tr>
+                        <th>Race</th>
+                        <td>{{ student.race }}</td>
+                    </tr>
+                    {% if student.hispanic %}
+                    <tr>
+                        <th>Hispanic</th>
+                        <td>Yes</td>
+                    </tr>
+                    {% endif %}
+                    {% if student.international %}
+                    <tr>
+                        <th>International</th>
+                        <td>Yes</td>
+                    </tr>
+                    {% endif %}
+                </table>
+            {% endwith %}
+            </td>
+            <td>
+                <table class="info-table fancy-table">
+                    {% if student.gpa %}
+                    <tr>
+                        <th>GPA</th>
+                        <td>{{ student.gpa }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if student.sat2400 %}
+                    <tr>
+                        <th>SAT 2400</th>
+                        <td>{{ student.sat2400 }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if student.sat1600 %}
+                    <tr>
+                        <th>SAT 1600</th>
+                        <td>{{ student.sat1600 }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if student.act %}
+                    <tr>
+                        <th>ACT</th>
+                        <td>{{ student.act }}</td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </td>
+            <td>
+
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

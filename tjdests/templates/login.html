@@ -1,10 +1,25 @@
 {% extends "page_base.html" %}
 
 {% block content %}
-    <h2>Log in</h2>
-    <form action="/login" method="post">
-    {% csrf_token %}
+    <p>Welcome to TJ Senior Destinations 2016. This is intended to be a resource for:
+    <ul>
+        <li>the class of 2016 to share its progress in the admissions process with one another.</li>
+        <li>the class of 2016 to share its achievements and college destinations with others.</li>
+        <li>other classes as they prepare to apply for college.</li>
+    </ul>
+    <p>If you are a student at TJHSST, you can login using the form below or <a href="/register">register at this link</a>. You will log in through your Intranet account.</p>
     
+
+    <form action="/login" method="post" class="login-form">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+        <tr>
+            <td colspan="2">
+            <input type="submit" value="Login" />
+            </td>
+        </tr>
+    </table>
     </form>
 
 {% endblock %}

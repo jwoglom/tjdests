@@ -11,3 +11,36 @@
 .header {
     margin-top: 100px;
 }
+
+ul.errorlist {
+    margin: 0;
+    padding: 0 4px;
+    list-style-type: none;
+}
+
+ul.errorlist li:before {
+    font-family: FontAwesome;
+    content: "\f071";
+    color: red;
+    padding-right: 5px;
+}
+
+ul.errorlist li {
+    color: red;
+}
+
+form.login-form th {
+    padding-right: 25px;
+}
+
+form.login-form td {
+    height: 40px;
+}
+
+table.fancy-table td, table.fancy-table th {
+    padding: 5px 10px;
+}
+
+table.fancy-table tbody tr:nth-child(odd) {
+    background-color: rgba(0,0,0,0.05);
+}
