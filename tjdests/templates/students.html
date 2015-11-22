@@ -77,7 +77,47 @@
                 </table>
             </td>
             <td>
+                <table class="score-table fancy-table">
+                    {% for t in student.sat2_set %}
+                    <tr>
+                        <th>SAT II: {{ t.name }}</th>
+                        <th>{{ t.score }} ({{ t.year }})</th>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <th colspan="2">No SAT IIs</th>
+                    </tr>
+                    {% endfor %}
 
+                    {% for t in student.apexam_set %}
+                    <tr>
+                        <th>AP {{ t.name }}</th>
+                        <th>{{ t.score }}{% if t.took_class %}, Took Class{% endif %} ({{ t.year }})</th>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <th colspan="2">No AP Exams</th>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </td>
+            <td>
+                {{ student.honors }}
+            </td>
+            <td>
+                <table class="college-table fancy-table">
+                    {% for c in student.colleges %}
+                    <tr>
+                        <td>{{ c.applied }}</td>
+                        <th>{{ c.college.name }} ({{ c.college.ceeb }})</th>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <th colspan="2">No colleges</th>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </td>
         </tr>
     {% endfor %}
     </tbody>

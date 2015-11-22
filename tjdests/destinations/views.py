@@ -3,20 +3,20 @@ from __future__ import unicode_literals
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.debug import sensitive_post_parameters
 from .models import User, Senior
 from .forms import AuthenticateForm
 
 
-def index(request):
+def index_view(request):
     if request.user.is_authenticated():
-        return home(request)
+        return home_view(request)
     else:
-        return login(request)
+        return login_view(request)
 
 @sensitive_post_parameters("password")
-def login(request):
+def login_view(request):
     if request.method == "POST":
         form = AuthenticateForm(data=request.POST)
         if form.is_valid():
@@ -32,16 +32,16 @@ def login(request):
     return render(request, "login.html", context)
 
 
-def logout(request):
+def logout_view(request):
     logout()
     return redirect("/")
 
 @login_required
-def home(request):
+def home_view(request):
     return render(request, "home.html", {})
 
 @login_required
-def students(request):
+def students_view(request):
     students = Senior.objects.all()
     context = {
         "students": students
