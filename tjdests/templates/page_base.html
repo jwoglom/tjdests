@@ -1,0 +1,41 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+<head>
+    <title>{% block title %}TJ Destinations{% endblock %}</title>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Language" content="en-us" />
+
+    {% block css %}
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:100italic,400italic,700italic,100,400,700" />
+
+        <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}" />
+    {% endblock %}
+
+    {% block js %}
+        <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+        <script type="text/javascript" src="{% static 'common.js' %}"></script>
+    {% endblock %}
+
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <div class="header">
+        <div class="logo"></div>
+        {% block nav %}
+            <a href="/">Home</a> | <a href="/students">Students</a> | <a href="/colleges">Colleges</a> | <a href="/destinations">Destinations</a>
+        {% endblock %}
+    </div>
+
+    <div class="content">
+    {% block content %}
+
+    {% endblock %}
+    </div>
+{% endblock %}
+</body>
+</html>

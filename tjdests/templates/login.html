@@ -1,0 +1,10 @@
+{% extends "page_base.html" %}
+
+{% block content %}
+    <h2>Log in</h2>
+    <form action="/login" method="post">
+    {% csrf_token %}
+    
+    </form>
+
+{% endblock %}
