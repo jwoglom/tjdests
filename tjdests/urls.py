@@ -26,6 +26,8 @@ urlpatterns = [
     url(r'^login$', views.login_view, name='login'),
     url(r'^accounts/login/$', views.login_view),
     url(r'^students$', views.students_view, name='students'),
+    url(r'^colleges$', views.colleges_view, name='colleges'),
+    url(r'^destinations$', views.destinations_view, name='destinations'),
     url(r'^student/(?P<student_id>\d+)?$', views.student_view, name='student'),
 
 

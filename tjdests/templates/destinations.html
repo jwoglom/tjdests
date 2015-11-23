@@ -1,0 +1,49 @@
+{% extends "page_base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <style type="text/css">
+    .dests-table {
+        width: 100%;
+    }
+
+    dl dt {
+        float: left;
+        padding-right: 5px;
+        font-weight: bold;
+    }
+
+    table.fancy-table tbody tr .college-table tr {
+        background: transparent;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <table class="dests-table fancy-table" data-sortable>
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>College</th>
+            <th>Program</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for student in students %}
+        <tr>
+            <th>
+                <a href="{% url 'student' student.id %}">{{ student.user.name }}</a>
+                <br />
+                {{ student.email }}
+            </th>
+            {% if student.attending_college %}
+                <td>{{ student.attending_college.college.name }}</td>
+                <td>{{ student.attending_college.program }}</td>
+            {% else %}
+                <td colspan="2"><center>No decision!</center></td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

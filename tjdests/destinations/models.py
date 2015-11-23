@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth.models import AbstractBaseUser
+from django.core import exceptions
 from django.db import models
 
 class College(models.Model):
@@ -10,6 +11,26 @@ class College(models.Model):
 
     def __unicode__(self):
         return "{}".format(self.name)
+
+    @property
+    def applied_set(self):
+        return self.collegeapp_set.all()
+
+    @property
+    def attending_set(self):
+        return self.collegeapp_set.filter(attending=True)
+
+    @property
+    def accepted_set(self):
+        return self.collegeapp_set.filter(result="AC")
+
+    @property
+    def rejected_set(self):
+        return self.collegeapp_set.filter(result="RJ")
+
+    @property
+    def waitlisted_set(self):
+        return self.collegeapp_set.filter(waitlisted=True)
 
     class Meta:
         ordering = ["name"]
@@ -31,9 +52,7 @@ class CollegeApp(models.Model):
         ("NA", "Applied"),
         ("AT", "Attending"),
         ("AC", "Accepted"),
-        ("RJ", "Rejected"),
-        ("WL", "Waitlisted"),
-        ("DF", "Deferred")
+        ("RJ", "Rejected")
     )
     result = models.CharField(max_length=2, choices=RESULTS, default="NA")
     submitted = models.DateField(blank=True)
@@ -146,8 +165,16 @@ class User(AbstractBaseUser):
     last_name = models.CharField(max_length=100)
     senior = models.OneToOneField("Senior", null=True)
 
+    @property
+    def name(self):
+        return "{} {}".format(self.first_name, self.last_name)
+    
+
     def __unicode__(self):
         return "{} {} ({})".format(self.first_name, self.last_name, self.username)
+
+    class Meta:
+        ordering = ["last_name", "first_name"]
 
 class Senior(models.Model):
     email = models.CharField(max_length=100, blank=True)
@@ -164,5 +191,16 @@ class Senior(models.Model):
 
     colleges = models.ManyToManyField("College", through="CollegeApp")
 
+    @property
+    def attending_college(self):
+        att = self.collegeapp_set.filter(attending=True)
+        if att:
+            return att[0]
+        return None
+    
+
     def __unicode__(self):
-        return "{}".format(self.user)
+        try:
+            return "{}".format(self.user)
+        except Exception:
+            return "{}".format(self.email)

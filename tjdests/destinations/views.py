@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.debug import sensitive_post_parameters
-from .models import User, Senior
+from .models import User, Senior, College
 from .forms import AuthenticateForm
 
 
@@ -47,6 +47,22 @@ def students_view(request):
         "students": students
     }
     return render(request, "students.html", context)
+
+@login_required
+def colleges_view(request):
+    colleges = College.objects.exclude(collegeapp__isnull=True)
+    context = {
+        "colleges": colleges
+    }
+    return render(request, "colleges.html", context)
+
+@login_required
+def destinations_view(request):
+    students = Senior.objects.all()
+    context = {
+        "students": students
+    }
+    return render(request, "destinations.html", context)
 
 @login_required
 def student_view(request, student_id):

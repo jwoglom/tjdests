@@ -1,0 +1,87 @@
+{% extends "page_base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <style type="text/css">
+    .colleges-table {
+        width: 100%;
+    }
+
+    dl dt {
+        float: left;
+        padding-right: 5px;
+        font-weight: bold;
+    }
+
+    table.fancy-table tbody tr .college-table tr {
+        background: transparent;
+    }
+
+    .user-list {
+        display: none;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <button onclick="$('.user-list').toggle()">View User List</button>
+    <table class="colleges-table fancy-table" data-sortable>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Applied</th>
+            <th>Attending</th>
+            <th>Accepted</th>
+            <th>Rejected</th>
+            <th>Waitlisted</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for college in colleges %}
+        <tr>
+            <th>{{ college.name }} ({{ college.ceeb }})</th>
+            <td>
+                {{ college.applied_set.count }}
+                <div class="user-list">
+                {% for app in college.applied_set %}
+                    {{ app.senior.user }}<br />
+                {% endfor %}
+                </div>
+            </td>
+            <td>
+                {{ college.attending_set.count }}
+                <div class="user-list">
+                {% for app in college.attending_set %}
+                    {{ app.senior.user }}<br />
+                {% endfor %}
+                </div>
+            </td>
+            <td>
+                {{ college.accepted_set.count }}
+                <div class="user-list">
+                {% for app in college.accepted_set %}
+                    {{ app.senior.user }}<br />
+                {% endfor %}
+                </div>
+            </td>
+            <td>
+                {{ college.rejected_set.count }}
+                <div class="user-list">
+                {% for app in college.rejected_set %}
+                    {{ app.senior.user }}<br />
+                {% endfor %}
+                </div>
+            </td>
+            <td>
+                {{ college.waitlisted_set.count }}
+                <div class="user-list">
+                {% for app in college.waitlisted_set %}
+                    {{ app.senior.user }}<br />
+                {% endfor %}
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}
