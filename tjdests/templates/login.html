@@ -1,6 +1,9 @@
 {% extends "page_base.html" %}
 
 {% block content %}
+    {% if "verify" in request.GET %}
+        <p><b>Your account needs to be verified.</b> Check your TJHSST mailbox.</p>
+    {% endif %}
     <p>Welcome to TJ Senior Destinations 2016. This is intended to be a resource for:
     <ul>
         <li>the class of 2016 to share its progress in the admissions process with one another.</li>

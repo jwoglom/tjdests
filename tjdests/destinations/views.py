@@ -65,7 +65,6 @@ def verify_view(request, verify_key):
         user.verified = True
         user.verify_key = None
         user.save()
-        login(request, user)
         return redirect("/?verified=1")
     return redirect("/")
 

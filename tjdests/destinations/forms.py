@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django import forms
 from .models import College, CollegeApp, APExam, SAT2, Senior, User
 
@@ -76,15 +76,19 @@ class SeniorForm(forms.ModelForm):
                   "act",
                   "honors"]
 
-class UserForm(forms.ModelForm):
+class UserForm(UserCreationForm):
+    
 
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
         self.fields["username"].label = "TJ Username"
         self.fields["username"].help_text = "e.x. 2016jwoglom"
+        self.fields["password1"].help_text = "Do NOT use your TJHSST password."
 
     class Meta:
         model = User
         fields = ["first_name",
                   "last_name",
-                  "username"]
+                  "username",
+                  "password1",
+                  "password2"]
