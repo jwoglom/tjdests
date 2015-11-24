@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import uuid
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django import forms
 from .models import College, CollegeApp, APExam, SAT2, Senior, User
@@ -84,6 +85,15 @@ class UserForm(UserCreationForm):
         self.fields["username"].label = "TJ Username"
         self.fields["username"].help_text = "e.x. 2016jwoglom"
         self.fields["password1"].help_text = "Do NOT use your TJHSST password."
+
+    def save(self, commit=True):
+        obj = super(UserForm, self).save(commit=False)
+        obj.verified = False
+        verify_key = str(uuid.uuid4())
+        obj.verify_key = verify_key
+        if commit:
+            obj.save()
+        return obj
 
     class Meta:
         model = User

@@ -43,11 +43,8 @@ def register_view(request):
         form = UserForm(data=request.POST)
         if form.is_valid():
             obj = form.save()
-            obj.verified = False
             name = "{} {}".format(obj.first_name, obj.last_name)
-            verify_key = str(uuid.uuid4())
-            obj.verify_key = verify_key
-            verify_email(request, obj.username, name, verify_key)
+            verify_email(request, obj.username, name, obj.verify_key)
             obj.save()
 
             return redirect("/?verify=1")
