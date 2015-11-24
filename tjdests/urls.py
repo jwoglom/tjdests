@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^logout$', views.logout_view, name='logout'),
     url(r'^accounts/login/$', views.login_view),
     url(r'^register$', views.register_view, name='register'),
-    url(r'^verify/(?P<verify_key>.*)?$', views.verify_view, name='verify'),
+    url(r'^verify/(?P<verify_key>[\w-]+)?$', views.verify_view, name='verify'),
 
     url(r'^students$', views.students_view, name='students'),
     url(r'^colleges$', views.colleges_view, name='colleges'),
