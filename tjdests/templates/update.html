@@ -18,9 +18,23 @@
     </div>
     {% endif %}
 
-
+    <h3>Schools</h3>
+    <table class="college-table fancy-table">
+        <tbody>
+            {% for c in senior.collegeapp_set.all %}
+            <tr>
+                <th>{{ c.college.name }}</th>
+                <td>
+                    <a href="{% url 'update_school' c.id %}" class="button">Update</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <a href="/update_school" class="button">Add a school</a>
     <br /><br />
+
+    <h3>Personal Info</h3>
 
     <form action="" method="post" class="update-form">
         {% csrf_token %}

@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.debug import sensitive_post_parameters
-from .models import User, Senior, College
+from .models import User, Senior, College, CollegeApp
 from .forms import UserForm, SeniorForm, CollegeAppForm
 from .email import verify_email
 
@@ -124,6 +124,10 @@ def update_school_view(request, app_id=None):
         else:
             form = CollegeAppForm(data=request.POST)
 
+        if app and "delete" in request.POST:
+            app.delete()
+            return redirect("/update_school?deleted=1")
+
         if form.is_valid():
             obj = form.save(commit=False)
             obj.senior = senior
@@ -174,6 +178,7 @@ def destinations_view(request):
 def student_view(request, student_id):
     student = get_object_or_404(Senior, id=student_id)
     context = {
-        "student": student
+        "student": student,
+        "is_self": (student.user == request.user)
     }
     return render(request, "student.html", context)

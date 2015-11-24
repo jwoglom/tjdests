@@ -27,9 +27,11 @@
 
     {% with user=student.user %}
         <span class="name">
-            <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+            <h1>{{ user.first_name }} {{ user.last_name }}</h1>
         </span>
     {% endwith %}
+    {% if is_self %}<b>This is you! <a href="{% url 'update' %}">Edit your profile</a></b><br />{% endif %}
+
     <dl class="info">
         <dt>Gender:</dt>
         <dd>{{ student.gender }}</dd>
@@ -99,6 +101,7 @@
                 <th>Recruited?</th>
                 <th>Supplement</th>
                 <th>Comments</th>
+                {% if is_self %}<th></th>{% endif %}
             </tr>
         </thead>
         <tbody>
@@ -117,6 +120,11 @@
                 <td>{{ c.recruited }}</td>
                 <td>{{ c.supplement }}</td>
                 <td>{{ c.comments }}</td>
+                {% if is_self %}
+                    <td>
+                        <a href="{% url 'update_school' c.id %}" class="button">Update</a>
+                    </td>
+                {% endif %}
             </tr>
             {% empty %}
             <tr>

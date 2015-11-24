@@ -17,7 +17,13 @@
     <script type="text/javascript" src="{% static 'selectize.min.js' %}"></script>
     <script type="text/javascript">
     $(function() {
-        $("#id_college").selectize().parent().css({"width": "400px"});
+        $("#id_college").selectize().parent().css({"width": "500px"});
+
+        deleteApp = function() {
+            if(!confirm("Are you sure you want to delete this college app?")) return;
+            $("form.update-form").append("<input type='hidden' name='delete' value=1 />");
+            document.forms["form"].submit();
+        }
     });
     </script>
 {% endblock %}
@@ -31,16 +37,26 @@
     </div>
     {% endif %}
 
+    {% if request.GET.deleted %}
+    <div class="message">
+        The college application was deleted. <a href="{% url 'student' senior.id %}">View your profile</a>
+    </div>
+    {% endif %}
 
     <a href="/update" class="button">Edit Profile</a>
     <br /><br />
 
-    <form action="" method="post" class="update-form">
+    <form action="" method="post" class="update-form" name="form">
         {% csrf_token %}
         <table>
             {{ form.as_table }}
             <tr>
-                <td colspan="2"><input type="submit" value="{% if app %}Update{% else %}Add{% endif %} Info" /></td>
+                <td colspan="2">
+                    <input type="submit" value="{% if app %}Update{% else %}Add{% endif %} Info" />
+                    {% if app %}
+                        <button onclick="deleteApp(); return false">Delete</button>
+                    {% endif %}
+                </td>
             </tr>
         </table>
     </form>
