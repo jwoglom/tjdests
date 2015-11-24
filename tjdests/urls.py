@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^accounts/login/$', views.login_view),
     url(r'^register$', views.register_view, name='register'),
     url(r'^verify/(?P<verify_key>[\w-]+)?$', views.verify_view, name='verify'),
-
+    url(r'^update$', views.update_view, name='update'),
     url(r'^students$', views.students_view, name='students'),
     url(r'^colleges$', views.colleges_view, name='colleges'),
     url(r'^destinations$', views.destinations_view, name='destinations'),

@@ -172,6 +172,11 @@ class User(AbstractBaseUser):
     @property
     def name(self):
         return "{} {}".format(self.first_name, self.last_name)
+
+    @property
+    def is_senior(self):
+        return self.username.startswith('2016')
+    
     
 
     def __unicode__(self):

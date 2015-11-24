@@ -50,6 +50,28 @@ class SAT2Form(forms.ModelForm):
                   "year"]
 
 class SeniorForm(forms.ModelForm):
+    gpa = forms.DecimalField(max_value=5.0, min_value=0.0, max_digits=4, decimal_places=3)
+    sat2400 = forms.IntegerField(max_value=2400, min_value=0)
+    sat1600 = forms.IntegerField(max_value=1600, min_value=0)
+    act = forms.IntegerField(max_value=36, min_value=0)
+    honors = forms.CharField(widget=forms.Textarea)
+
+    def __init__(self, *args, **kwargs):
+        super(SeniorForm, self).__init__(*args, **kwargs)
+        self.fields["email"].label = "Other Email"
+        self.fields["email"].help_text = "(Optional)"
+        self.fields["gpa"].label = "GPA"
+        self.fields["sat2400"].label = "SAT (2400 Scale)"
+        self.fields["sat1600"].label = "SAT (1600 Scale)"
+        self.fields["act"].label = "ACT"
+
+    def save(self, commit=True):
+        obj = super(SeniorForm, self).save(commit=False)
+        obj.user = self.user
+        if commit:
+            obj.save()
+            self.save_m2m()
+        return obj
 
     class Meta:
         model = Senior
@@ -65,8 +87,6 @@ class SeniorForm(forms.ModelForm):
                   "honors"]
 
 class UserForm(UserCreationForm):
-    
-
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
         self.fields["username"].label = "TJ Username"

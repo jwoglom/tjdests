@@ -31,8 +31,12 @@
         {% block nav %}
             <a href="/">Home</a> 
             {% if request.user.is_authenticated %}| 
-                {% if request.user.senior %}
-                    <b><a href="/update">Update Info</a></b> |
+                {% if request.user.is_senior %}
+                    {% if request.user.senior %}
+                        <b><a href="/update">Update Info</a></b> |
+                    {% else %}
+                        <b><a href="/update">Add Info</a></b> |
+                    {% endif %}
                 {% endif %}
                 <a href="/students">Students</a> |
                 <a href="/colleges">Colleges</a> |

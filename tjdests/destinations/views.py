@@ -8,7 +8,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.debug import sensitive_post_parameters
 from .models import User, Senior, College
-from .forms import UserForm
+from .forms import UserForm, SeniorForm
 from .email import verify_email
 
 
@@ -69,6 +69,36 @@ def verify_view(request, verify_key):
 def logout_view(request):
     logout(request)
     return redirect("/")
+
+@login_required
+def update_view(request):
+    if not request.user.is_senior:
+        return redirect("/")
+
+    updated = None
+
+    senior = request.user.senior
+
+    if request.method == "POST":
+        if senior:
+            form = SeniorForm(instance=senior, data=request.POST, user=request.user)
+        else:
+            form = SeniorForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            form.save()
+            updated = True
+    elif senior:
+        form = SeniorForm(instance=senior, user=request.user)
+    else:
+        form = SeniorForm(user=request.user)
+
+    context = {
+        "form": form,
+        "senior": senior,
+        "updated": updated
+    }
+    return render(request, "update.html", context)
 
 @login_required
 def home_view(request):

@@ -232,3 +232,8 @@ table.fancy-table td, table.fancy-table th {
 table.fancy-table tbody tr:nth-child(odd) {
     background-color: rgba(0,0,0,0.05);
 }
+
+.message {
+    padding: 5px 10px;
+    background: yellow;
+}
