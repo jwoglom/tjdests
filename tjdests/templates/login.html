@@ -2,13 +2,13 @@
 
 {% block content %}
     {% if "verify" in request.GET %}
-    <div style="padding: 10px; background: yellow">
+    <div style="padding: 5px 10px; background: yellow">
         <p><b>Your account needs to be verified.</b> Check your TJHSST mailbox.</p>
     </div>
     {% endif %}
 
     {% if "verified" in request.GET %}
-    <div style="padding: 10px; background: yellow">
+    <div style="padding: 5px 10px; background: yellow">
         <p><b>Your account was verified.</b> You can log in below.</p>
     </div>
     {% endif %}

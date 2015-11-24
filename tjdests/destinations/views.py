@@ -2,12 +2,13 @@
 from __future__ import unicode_literals
 
 import uuid
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.debug import sensitive_post_parameters
 from .models import User, Senior, College
-from .forms import AuthenticateForm, UserForm
+from .forms import UserForm
 from .email import verify_email
 
 
@@ -20,17 +21,16 @@ def index_view(request):
 @sensitive_post_parameters("password")
 def login_view(request):
     if request.method == "POST":
-        form = AuthenticateForm(data=request.POST)
+        form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             if not user.verified:
                 logout(request)
                 return redirect("/?unverified=1")
-
             login(request, user)
-            return redirect("/")
+            return redirect("/?")
     else:
-        form = AuthenticateForm()
+        form = AuthenticationForm()
 
     context = {
         "form": form

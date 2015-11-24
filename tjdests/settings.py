@@ -31,6 +31,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "destinations.User"
+
 EMAIL_FROM = "noreply@tjhsst2016.com"
 
 # Application definition

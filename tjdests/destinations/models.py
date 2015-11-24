@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, UserManager
 from django.core import exceptions
 from django.db import models
 
@@ -159,6 +159,8 @@ class SAT2(models.Model):
 
 
 class User(AbstractBaseUser):
+    objects = UserManager()
+
     USERNAME_FIELD = "username"
     username = models.CharField(max_length=30, unique=True)
     first_name = models.CharField(max_length=100)

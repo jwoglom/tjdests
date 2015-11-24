@@ -2,22 +2,9 @@
 from __future__ import unicode_literals
 
 import uuid
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .models import College, CollegeApp, APExam, SAT2, Senior, User
-
-class AuthenticateForm(AuthenticationForm):
-
-    username = forms.CharField(required=True,
-                               widget=forms.widgets.TextInput(attrs={"placeholder": "Username"}),
-                               error_messages={"required": "Invalid username",
-                                               "inactive": "Access disallowed."})
-
-    password = forms.CharField(required=True,
-                               widget=forms.widgets.PasswordInput(attrs={"placeholder": "Password"}),
-                               error_messages={"required": "Invalid password",
-                                               "inactive": "Access disallowed."})
-
 
 class CollegeForm(forms.ModelForm):
 
@@ -99,6 +86,4 @@ class UserForm(UserCreationForm):
         model = User
         fields = ["first_name",
                   "last_name",
-                  "username",
-                  "password1",
-                  "password2"]
+                  "username"]
