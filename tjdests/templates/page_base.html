@@ -29,7 +29,19 @@
     <div class="header">
         <div class="logo"></div>
         {% block nav %}
-            <a href="/">Home</a> | <a href="/students">Students</a> | <a href="/colleges">Colleges</a> | <a href="/destinations">Destinations</a>
+            <a href="/">Home</a> 
+            {% if request.user.is_authenticated %}| 
+                {% if request.user.senior %}
+                    <b><a href="/update">Update Info</a></b> |
+                {% endif %}
+                <a href="/students">Students</a> |
+                <a href="/colleges">Colleges</a> |
+                <a href="/destinations">Destinations</a> |
+                <a href="/logout">Logout</a>
+            {% else %}|
+                <b><a href="/register">Register</a></b>
+            {% endif %}
+
         {% endblock %}
     </div>
 

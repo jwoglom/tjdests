@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
-from .models import College, CollegeApp, APExam, SAT2, Senior
+from .models import College, CollegeApp, APExam, SAT2, Senior, User
 
 class AuthenticateForm(AuthenticationForm):
 
@@ -75,3 +75,16 @@ class SeniorForm(forms.ModelForm):
                   "sat1600",
                   "act",
                   "honors"]
+
+class UserForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+        self.fields["username"].label = "TJ Username"
+        self.fields["username"].help_text = "e.x. 2016jwoglom"
+
+    class Meta:
+        model = User
+        fields = ["first_name",
+                  "last_name",
+                  "username"]

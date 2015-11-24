@@ -217,6 +217,14 @@ form.login-form td {
     height: 40px;
 }
 
+form.register-form th {
+    padding-right: 25px;
+}
+
+form.register-form td {
+    height: 40px;
+}
+
 table.fancy-table td, table.fancy-table th {
     padding: 5px 10px;
 }

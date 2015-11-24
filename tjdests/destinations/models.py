@@ -164,6 +164,8 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     senior = models.OneToOneField("Senior", null=True)
+    verified = models.BooleanField(default=False)
+    verify_key = models.CharField(max_length=50, null=True)
 
     @property
     def name(self):

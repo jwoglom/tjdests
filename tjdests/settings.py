@@ -31,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+EMAIL_FROM = "noreply@tjhsst2016.com"
 
 # Application definition
 
