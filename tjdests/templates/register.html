@@ -1,5 +1,14 @@
 {% extends "page_base.html" %}
 
+{% block css %}
+    {{ block.super }}
+    <style type="text/css">
+    #id_captcha_1 {
+        display: block;
+    }
+    </style>
+{% endblock %}
+
 {% block content %}
     <h2>Register</h2>
 

@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import uuid
+from captcha.fields import CaptchaField
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .models import College, CollegeApp, APExam, SAT2, Senior, User
@@ -84,6 +85,8 @@ class SeniorForm(forms.ModelForm):
                   "honors"]
 
 class UserForm(UserCreationForm):
+    captcha = CaptchaField()
+
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
         self.fields["username"].label = "TJ Username"
@@ -103,4 +106,7 @@ class UserForm(UserCreationForm):
         model = User
         fields = ["first_name",
                   "last_name",
-                  "username"]
+                  "username",
+                  "password1",
+                  "password2",
+                  "captcha"]
