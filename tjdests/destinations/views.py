@@ -8,7 +8,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.debug import sensitive_post_parameters
 from .models import User, Senior, College
-from .forms import UserForm, SeniorForm
+from .forms import UserForm, SeniorForm, CollegeAppForm
 from .email import verify_email
 
 
@@ -81,17 +81,21 @@ def update_view(request):
 
     if request.method == "POST":
         if senior:
-            form = SeniorForm(instance=senior, data=request.POST, user=request.user)
+            form = SeniorForm(instance=senior, data=request.POST)
         else:
-            form = SeniorForm(data=request.POST, user=request.user)
+            form = SeniorForm(data=request.POST)
 
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            user = request.user
+            user.senior = obj
+            user.save()
+            senior = request.user.senior
             updated = True
     elif senior:
-        form = SeniorForm(instance=senior, user=request.user)
+        form = SeniorForm(instance=senior)
     else:
-        form = SeniorForm(user=request.user)
+        form = SeniorForm()
 
     context = {
         "form": form,
@@ -99,6 +103,44 @@ def update_view(request):
         "updated": updated
     }
     return render(request, "update.html", context)
+
+@login_required
+def update_school_view(request, app_id=None):
+    if not request.user.is_senior:
+        return redirect("/")
+
+    updated = None
+
+    senior = request.user.senior
+
+    app = None
+    if app_id:
+        app = get_object_or_404(CollegeApp, id=app_id)
+
+
+    if request.method == "POST":
+        if app:
+            form = CollegeAppForm(instance=app, data=request.POST)
+        else:
+            form = CollegeAppForm(data=request.POST)
+
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.senior = senior
+            obj.save()
+            updated = True
+    elif senior:
+        form = CollegeAppForm(instance=app)
+    else:
+        form = CollegeAppForm()
+
+    context = {
+        "form": form,
+        "senior": senior,
+        "app": app,
+        "updated": updated
+    }
+    return render(request, "update_school.html", context)
 
 @login_required
 def home_view(request):

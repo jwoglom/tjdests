@@ -1,0 +1,48 @@
+{% extends "page_base.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'selectize.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'selectize.default.css' %}" />
+    <style type="text/css">
+    textarea {
+        height: 100px;
+    }
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'selectize.min.js' %}"></script>
+    <script type="text/javascript">
+    $(function() {
+        $("#id_college").selectize().parent().css({"width": "400px"});
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <h2>{% if app %}Update{% else %}Add{% endif %} School</h2>
+
+    {% if updated %}
+    <div class="message">
+        <i class="fa fa-check"></i> Your information was updated! <a href="{% url 'student' senior.id %}">View your profile</a>
+    </div>
+    {% endif %}
+
+
+    <a href="/update" class="button">Edit Profile</a>
+    <br /><br />
+
+    <form action="" method="post" class="update-form">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td colspan="2"><input type="submit" value="{% if app %}Update{% else %}Add{% endif %} Info" /></td>
+            </tr>
+        </table>
+    </form>
+
+{% endblock %}

@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^register$', views.register_view, name='register'),
     url(r'^verify/(?P<verify_key>[\w-]+)?$', views.verify_view, name='verify'),
     url(r'^update$', views.update_view, name='update'),
+    url(r'^update_school$', views.update_school_view, name='update_school'),
     url(r'^students$', views.students_view, name='students'),
     url(r'^colleges$', views.colleges_view, name='colleges'),
     url(r'^destinations$', views.destinations_view, name='destinations'),

@@ -10,7 +10,7 @@ class College(models.Model):
     ceeb = models.IntegerField(unique=True)
 
     def __unicode__(self):
-        return "{}".format(self.name)
+        return "{}: {}".format(self.ceeb, self.name)
 
     @property
     def applied_set(self):
@@ -55,8 +55,8 @@ class CollegeApp(models.Model):
         ("RJ", "Rejected")
     )
     result = models.CharField(max_length=2, choices=RESULTS, default="NA")
-    submitted = models.DateField(blank=True)
-    notified = models.DateField(blank=True)
+    submitted = models.DateField(null=True, blank=True)
+    notified = models.DateField(null=True, blank=True)
     legacy = models.BooleanField(default=False)
     interview = models.BooleanField(default=False)
     deferred = models.BooleanField(default=False)
@@ -196,7 +196,7 @@ class Senior(models.Model):
     sat2400 = models.IntegerField(default=0)
     sat1600 = models.IntegerField(default=0)
     act = models.IntegerField(default=0)
-    honors = models.CharField(max_length=1000)
+    honors = models.CharField(max_length=1000, blank=True)
 
     colleges = models.ManyToManyField("College", through="CollegeApp")
 

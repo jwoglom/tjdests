@@ -14,6 +14,11 @@ class CollegeForm(forms.ModelForm):
                   "ceeb"]
 
 class CollegeAppForm(forms.ModelForm):
+    comments = forms.CharField(widget=forms.Textarea, required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(CollegeAppForm, self).__init__(*args, **kwargs)
+        self.fields["college"].help_text = "Click in the field to search by school name or College Board CEEB number"
 
     class Meta:
         model = CollegeApp
@@ -64,14 +69,6 @@ class SeniorForm(forms.ModelForm):
         self.fields["sat2400"].label = "SAT (2400 Scale)"
         self.fields["sat1600"].label = "SAT (1600 Scale)"
         self.fields["act"].label = "ACT"
-
-    def save(self, commit=True):
-        obj = super(SeniorForm, self).save(commit=False)
-        obj.user = self.user
-        if commit:
-            obj.save()
-            self.save_m2m()
-        return obj
 
     class Meta:
         model = Senior
