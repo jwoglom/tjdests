@@ -10,6 +10,8 @@ def verify_email(request, username, name, verify_key):
     email = "{}@tjhsst.edu".format(username)
     subject = "TJ Destinations Account Verification"
     verify_url = request.build_absolute_uri(reverse('verify', args=[verify_key]))
+    if "127.0.0.1:2016" in verify_url:
+        verify_url = verify_url.replace("127.0.0.1:2016", "tjhsst2016.com")
     data = {
         "username": username,
         "name": name,
