@@ -182,3 +182,11 @@ def student_view(request, student_id):
         "is_self": (student.user == request.user)
     }
     return render(request, "student.html", context)
+
+@login_required
+def college_view(request, college_ceeb):
+    college = College.objects.get(ceeb=college_ceeb)
+    context = {
+        "college": college
+    }
+    return render(request, "college.html", context)

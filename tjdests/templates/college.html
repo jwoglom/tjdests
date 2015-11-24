@@ -1,0 +1,100 @@
+{% extends "page_base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <style type="text/css">
+    .college-table {
+        width: 100%;
+        font-size: 11px;
+    }
+
+    dl dt {
+        float: left;
+        padding-right: 5px;
+        font-weight: bold;
+    }
+
+    dl.sat2, dl.aps {
+        margin-top: 0;
+    }
+
+    table.fancy-table tbody tr .college-table tr {
+        background: transparent;
+    }
+
+    table.fancy-table td, table.fancy-table th {
+        padding: 5px 2px;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+    
+    <span class="name">
+        <h1>{{ college.name }}</h1>
+    </span>
+
+    <dl class="info">
+    </dl>
+    
+    <table class="college-table fancy-table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Decision</th>
+                <th>Program</th>
+                <th>Type</th>
+                <th>GPA</th>
+                <th>SAT</th>
+                <th>ACT</th>
+                <th>Gender</th>
+                <th>Race</th>
+                <th>Hispanic</th>
+                <th>Int'l</th>
+                <th>Submitted</th>
+                <th>Notified</th>
+                <th>Legacy?</th>
+                <th>Interview?</th>
+                <th>Deferred?</th>
+                <th>Waitlisted?</th>
+                <th>Recruited?</th>
+                <th>Supplement</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in college.collegeapp_set.all %}
+            <tr>
+                <td>
+                    <a href="{% url 'student' c.senior.id %}">
+                        {{ c.senior.user.name }}
+                    </a>
+                </td>
+                <td>{{ c.result_name }}</td>
+                <td>{{ c.program }}</td>
+                <td title="{{ c.applied_name }}">{{ c.applied }}</td>
+                <td>{{ c.senior.gpa }}</td>
+                <td>{{ c.senior.sat }}</td>
+                <td>{{ c.senior.act }}</td>
+                <td>{{ c.senior.gender }}</td>
+                <td>{{ c.senior.race }}</td>
+                <td>{{ c.senior.hispanic }}</td>
+                <td>{{ c.senior.international }}</td>
+                <td>{{ c.submitted }}</td>
+                <td>{{ c.notified }}</td>
+                <td>{{ c.legacy }}</td>
+                <td>{{ c.interview }}</td>
+                <td>{{ c.deferred }}</td>
+                <td>{{ c.waitlisted }}</td>
+                <td>{{ c.recruited }}</td>
+                <td>{{ c.supplement }}</td>
+                <td>{{ c.comments }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <th colspan="13">No students have applied.</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

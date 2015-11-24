@@ -206,7 +206,10 @@ class Senior(models.Model):
         if att:
             return att[0]
         return None
-    
+
+    @property
+    def sat(self):
+        return self.sat2400 if self.sat2400 else self.sat1600
 
     def __unicode__(self):
         try:

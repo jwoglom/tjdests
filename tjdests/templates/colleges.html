@@ -40,7 +40,11 @@
     <tbody>
     {% for college in colleges %}
         <tr>
-            <th>{{ college.name }} ({{ college.ceeb }})</th>
+            <th>
+                <a href="{% url 'college' college.ceeb %}">
+                    {{ college.name }}
+                </a>
+            </th>
             <td>
                 {{ college.applied_set.count }}
                 <div class="user-list">
