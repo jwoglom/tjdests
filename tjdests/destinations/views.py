@@ -100,7 +100,7 @@ def update_view(request):
     context = {
         "form": form,
         "senior": senior,
-        "updated": updated
+        "updated": updated or "updated" in request.GET
     }
     return render(request, "update.html", context)
 
@@ -134,6 +134,7 @@ def update_school_view(request, app_id=None):
             obj.senior = senior
             obj.save()
             updated = True
+            return redirect("/update?updated=1")
     elif senior:
         form = CollegeAppForm(instance=app)
     else:
@@ -143,7 +144,7 @@ def update_school_view(request, app_id=None):
         "form": form,
         "senior": senior,
         "app": app,
-        "updated": updated
+        "updated": updated or "updated" in request.GET
     }
     return render(request, "update_school.html", context)
 
