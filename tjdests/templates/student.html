@@ -87,7 +87,7 @@
             <dd>&nbsp;</dd>
         {% endfor %}
     </dl>
-    <b>Honors/Extracurriculars:</b> {{ student.honors }}
+    <b style="vertical-align: top">Honors/Extracurriculars:</b> <span style="display: inline-block">{{ student.honors|linebreaksbr }}</span>
     
     <table class="college-table fancy-table">
         <thead>
@@ -123,7 +123,7 @@
                 <td>{{ c.waitlisted }}</td>
                 <td>{{ c.recruited }}</td>
                 <td>{{ c.supplement }}</td>
-                <td>{{ c.comments }}</td>
+                <td>{{ c.comments|linebreaksbr }}</td>
                 {% if is_self %}
                     <td>
                         <a href="{% url 'update_school' c.id %}" class="button">Update</a>
