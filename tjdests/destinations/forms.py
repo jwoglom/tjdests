@@ -70,6 +70,8 @@ class SeniorForm(forms.ModelForm):
         self.fields["sat2400"].label = "SAT (2400 Scale)"
         self.fields["sat1600"].label = "SAT (1600 Scale)"
         self.fields["act"].label = "ACT"
+        for i in ["gpa", "sat2400", "sat1600"]:
+            self.fields[i].help_text = "Not required, enter 0"
         self.fields["honors"].label = "Honors/Extracurr's"
 
     class Meta:
