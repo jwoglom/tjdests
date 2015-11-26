@@ -45,7 +45,8 @@ class CollegeApp(models.Model):
         ("RD", "Regular Decision"),
         ("ED", "Early Decision"),
         ("EA", "Early Action"),
-        ("PR", "Priority")
+        ("PR", "Priority"),
+        ("RL", "Rolling Admission")
     )
     applied = models.CharField(max_length=2, choices=TYPES, default="RD")
     RESULTS = (
