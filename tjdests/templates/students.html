@@ -14,8 +14,16 @@
         font-weight: bold;
     }
 
+    dl.sat2ap {
+        white-space: nowrap;
+    }
+
     table.fancy-table tbody tr .college-table tr {
         background: transparent;
+    }
+
+    table.college-table[data-sortable] th, table.college-table[data-sortable] td {
+        padding: 3px;
     }
     </style>
 {% endblock %}
@@ -105,11 +113,11 @@
                 {{ student.honors }}
             </td>
             <td>
-                <table class="college-table">
+                <table class="college-table" data-sortable="false">
                     {% for c in student.collegeapp_set.all %}
-                    <tr>
-                        <td>{{ c.applied }}</td>
-                        <th>{{ c.college.name }}</th>
+                    <tr data-sortable="false">
+                        <td data-sortable="false">{{ c.applied }}</td>
+                        <th data-sortable="false">{{ c.college.name }}</th>
                     </tr>
                     {% empty %}
                     <tr>
