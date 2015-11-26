@@ -194,7 +194,15 @@ class User(AbstractBaseUser):
 class Senior(models.Model):
     email = models.CharField(max_length=100, blank=True)
     gender = models.CharField(max_length=1, choices=(("M", "Male"), ("F", "Female")))
-    race = models.CharField(max_length=20)
+    RACES = [(i, i) for i in (
+        "White",
+        "Asian",
+        "Black",
+        "Hispanic",
+        "Indian/AK Native",
+        "Multiracial"
+    )]
+    race = models.CharField(max_length=20, choices=RACES)
     hispanic = models.BooleanField()
     international = models.BooleanField()
 
