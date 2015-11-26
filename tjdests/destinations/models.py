@@ -198,10 +198,10 @@ class Senior(models.Model):
     hispanic = models.BooleanField()
     international = models.BooleanField()
 
-    gpa = models.DecimalField(max_digits=4, decimal_places=3, default=0.00)
-    sat2400 = models.IntegerField(default=0, null=True)
-    sat1600 = models.IntegerField(default=0, null=True)
-    act = models.IntegerField(default=0, null=True)
+    gpa = models.DecimalField(max_digits=4, decimal_places=3, default=0.00, null=True, blank=True)
+    sat2400 = models.IntegerField(default=0, null=True, blank=True)
+    sat1600 = models.IntegerField(default=0, null=True, blank=True)
+    act = models.IntegerField(default=0, null=True, blank=True)
     honors = models.CharField(max_length=1000, blank=True)
 
     colleges = models.ManyToManyField("College", through="CollegeApp")
