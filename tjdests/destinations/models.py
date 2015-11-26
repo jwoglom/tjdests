@@ -76,6 +76,7 @@ class CollegeApp(models.Model):
         return results[self.result] if self.result in results else ""
     
     
+    
 
     def __unicode__(self):
         return "{}".format(self.college)

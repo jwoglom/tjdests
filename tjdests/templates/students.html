@@ -25,6 +25,19 @@
     table.college-table[data-sortable] th, table.college-table[data-sortable] td {
         padding: 3px;
     }
+
+    tr.attending > * {
+        font-weight: bold;
+        color: green;
+    }
+
+    tr.AC > * {
+        color: green;
+    }
+
+    tr.RJ > * {
+        color: red;
+    }
     </style>
 {% endblock %}
 
@@ -115,7 +128,7 @@
             <td>
                 <table class="college-table" data-sortable="false">
                     {% for c in student.collegeapp_set.all %}
-                    <tr data-sortable="false">
+                    <tr data-sortable="false" class="{% if c.attending %}attending{% else %}{{ c.result_name }}{% endif %}">
                         <td data-sortable="false">{{ c.applied }}</td>
                         <th data-sortable="false">{{ c.college.name }}</th>
                     </tr>

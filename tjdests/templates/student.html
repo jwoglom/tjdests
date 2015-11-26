@@ -24,6 +24,19 @@
     table.fancy-table tbody tr .college-table tr {
         background: transparent;
     }
+
+    td.attending {
+        font-weight: bold;
+        color: green;
+    }
+
+    td.AC {
+        color: green;
+    }
+
+    td.RJ {
+        color: red;
+    }
     </style>
 {% endblock %}
 
@@ -111,7 +124,11 @@
         <tbody>
             {% for c in student.collegeapp_set.all %}
             <tr>
-                <td>{{ c.result_name }}</td>
+                {% if c.attending %}
+                    <td class="attending">Attending</td>
+                {% else %}
+                    <td class="{{ c.result }}">{{ c.result_name }}</td>
+                {% endif %}
                 <th>{{ c.college.name }}</th>
                 <td>{{ c.program }}</td>
                 <td title="{{ c.applied_name }}">{{ c.applied }}</td>

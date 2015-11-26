@@ -8,8 +8,10 @@
         <li>other classes as they prepare to apply for college.</li>
     </ul>
     <p>If you are a student at TJHSST, you can browse the student destinations using the links above.</p>
-    {% if not request.user.senior %}
+    {% if not request.user.is_senior %}
         <p>You cannot edit or submit destinations because you are not a senior.</p>
+    {% else %}
+        <p>Add the colleges you have applied to using the "Add Info" button above!</p>
     {% endif %}
 
     <br />
