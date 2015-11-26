@@ -168,6 +168,11 @@ class User(AbstractBaseUser):
     senior = models.OneToOneField("Senior", null=True)
     verified = models.BooleanField(default=False)
     verify_key = models.CharField(max_length=50, null=True)
+    is_staff = models.BooleanField(default=False)
+
+    @property
+    def is_superuser(self):
+        return self.is_staff
 
     @property
     def name(self):

@@ -70,6 +70,7 @@ class SeniorForm(forms.ModelForm):
         self.fields["sat2400"].label = "SAT (2400 Scale)"
         self.fields["sat1600"].label = "SAT (1600 Scale)"
         self.fields["act"].label = "ACT"
+        self.fields["honors"].label = "Honors/Extracurr's"
 
     class Meta:
         model = Senior

@@ -116,7 +116,8 @@ def update_school_view(request, app_id=None):
     app = None
     if app_id:
         app = get_object_or_404(CollegeApp, id=app_id)
-
+        if app.senior.user != request.user and not request.user.is_superuser:
+            return redirect("/")
 
     if request.method == "POST":
         if app:
