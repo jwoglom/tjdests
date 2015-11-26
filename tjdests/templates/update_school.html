@@ -24,6 +24,8 @@
             $("form.update-form").append("<input type='hidden' name='delete' value=1 />");
             document.forms["form"].submit();
         }
+
+        $("#id_submitted, #id_notified").attr("placeholder", "YYYY-MM-DD or blank")
     });
     </script>
 {% endblock %}
@@ -43,7 +45,7 @@
     </div>
     {% endif %}
 
-    <a href="/update" class="button">Edit Profile</a>
+    <a href="/update" class="button">Edit Profile/Edit Schools</a>
     <br /><br />
 
     <form action="" method="post" class="update-form" name="form">
