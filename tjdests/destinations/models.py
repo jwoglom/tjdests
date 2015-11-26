@@ -51,7 +51,6 @@ class CollegeApp(models.Model):
     applied = models.CharField(max_length=2, choices=TYPES, default="RD")
     RESULTS = (
         ("NA", "Applied"),
-        ("AT", "Attending"),
         ("AC", "Accepted"),
         ("RJ", "Rejected")
     )
