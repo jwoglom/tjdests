@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.contrib.auth.models import AbstractBaseUser, UserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core import exceptions
 from django.db import models
 
@@ -158,11 +158,22 @@ class SAT2(models.Model):
     def __unicode__(self):
         return "{} ({})".format(self.name, self.score)
 
+class UserManager(BaseUserManager):
+    def create_user(self, username, password=None, **kwargs):
+        user = self.model(username=username, **kwargs)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, username, password, **kwargs):
+        user = self.model(username=username, is_staff=True, is_superuser=True, **kwargs)
+        user.set_password(password)
+        user.save()
+        return user
 
 class User(AbstractBaseUser):
     objects = UserManager()
 
-    USERNAME_FIELD = "username"
     username = models.CharField(max_length=30, unique=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -170,6 +181,8 @@ class User(AbstractBaseUser):
     verified = models.BooleanField(default=False)
     verify_key = models.CharField(max_length=50, null=True)
     is_staff = models.BooleanField(default=False)
+
+    USERNAME_FIELD = "username"
 
     @property
     def is_superuser(self):
