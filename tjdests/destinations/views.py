@@ -154,7 +154,7 @@ def home_view(request):
 
 @login_required
 def students_view(request):
-    students = Senior.objects.all()
+    students = Senior.objects.all().order_by("user__last_name")
     context = {
         "students": students
     }
@@ -162,7 +162,7 @@ def students_view(request):
 
 @login_required
 def colleges_view(request):
-    colleges = College.objects.exclude(collegeapp__isnull=True)
+    colleges = College.objects.exclude(collegeapp__isnull=True).order_by("name")
     context = {
         "colleges": colleges
     }
@@ -170,7 +170,7 @@ def colleges_view(request):
 
 @login_required
 def destinations_view(request):
-    students = Senior.objects.all()
+    students = Senior.objects.all().order_by("user__last_name")
     context = {
         "students": students
     }
