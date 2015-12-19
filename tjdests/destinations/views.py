@@ -104,6 +104,20 @@ def update_view(request):
     }
     return render(request, "update.html", context)
 
+
+@login_required
+def update_schools_view(request):
+    if not request.user.is_senior:
+        return redirect("/")
+
+    senior = request.user.senior
+
+    context = {
+        "senior": senior,
+        "updated": "updated" in request.GET
+    }
+    return render(request, "update_schools.html", context)
+
 @login_required
 def update_school_view(request, app_id=None):
     if not request.user.is_senior:

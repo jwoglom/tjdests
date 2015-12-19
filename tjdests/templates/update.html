@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% if senior %}Update{% else %}Add{% endif %} Info</h2>
+    <h2>{% if senior %}Update{% else %}Add{% endif %} Personal Info</h2>
 
     {% if updated %}
     <div class="message">
@@ -18,21 +18,13 @@
     </div>
     {% endif %}
 
-    <h3>Schools</h3>
-    <table class="college-table fancy-table">
-        <tbody>
-            {% for c in senior.collegeapp_set.all %}
-            <tr>
-                <th>{{ c.college.name }}</th>
-                <td>
-                    <a href="{% url 'update_school' c.id %}" class="button">Update</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="/update_school" class="button">Add a school</a>
-    <br /><br />
+    <a href="{% url 'update_schools' %}" class="button">Update/Add Schools</a>
+    <i class="fa fa-arrow-left"></i>
+    {% if senior.collegeapp_set.count == 0 %}
+        <b>Start adding schools</b>
+    {% else %}
+        <b>Update or add more schools</b>
+    {% endif %}
 
     <h3>Personal Info</h3>
 
