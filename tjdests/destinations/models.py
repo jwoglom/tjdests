@@ -185,10 +185,10 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = "username"
 
     def get_full_name(self):
-        return self.fullname
+        return "{} ({})".format(self.name, self.username)
 
     def get_short_name(self):
-        return self.shortname
+        return self.name
 
     @property
     def is_superuser(self):
