@@ -7,7 +7,12 @@ logger = logging.getLogger("tjdests_access")
 class AccessLogMiddleWare(object):
 
     def process_response(self, request, response):
-        if request.user.is_anonymous():
+        try:
+            is_anon = request.user.is_anonymous()
+        except AttributeError:
+            is_anon = True
+
+        if is_anon:
             username = "anonymous_user"
         else:
             username = request.user.username
