@@ -1,0 +1,58 @@
+{% extends "page_base.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'selectize.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'selectize.default.css' %}" />
+    <style type="text/css">
+    textarea {
+        height: 100px;
+    }
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'selectize.min.js' %}"></script>
+    <script type="text/javascript">
+    $(function() {
+        $("#id_name").selectize().parent().css({"width": "200px"});
+
+        deleteExam = function() {
+            if(!confirm("Are you sure you want to delete this AP exam?")) return;
+            $("form.update-form").append("<input type='hidden' name='delete' value=1 />");
+            document.forms["form"].submit();
+        }
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <h2>{% if exam %}Update{% else %}Add{% endif %} AP Exam</h2>
+
+    {% if updated %}
+    <div class="message">
+        <i class="fa fa-check"></i> Your information was updated! <a href="{% url 'student' senior.id %}">View your profile</a>
+    </div>
+    {% endif %}
+
+    <a href="/update" class="button">Edit Profile/Edit Schools</a>
+    <br /><br />
+
+    <form action="" method="post" class="update-form" name="form">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="{% if exam %}Update{% else %}Add{% endif %} Exam" />
+                    {% if app %}
+                        <button onclick="deleteExam(); return false">Delete</button>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </form>
+
+{% endblock %}

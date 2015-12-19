@@ -18,13 +18,24 @@
     </div>
     {% endif %}
 
-    <a href="{% url 'update_schools' %}" class="button">Update/Add Schools</a>
-    <i class="fa fa-arrow-left"></i>
     {% if senior.collegeapp_set.count == 0 %}
-        <b>Start adding schools</b>
+        <b>Start adding schools:</b>
     {% else %}
-        <b>Update or add more schools</b>
+        Update or add more schools:
     {% endif %}
+    <br />
+    <a href="{% url 'update_schools' %}" class="button">Update/Add Schools</a>
+    
+    <br /><br />
+
+    {% if senior.apexam_set.count == 0 %}
+        <b>Start adding AP Exams:</b>
+    {% else %}
+        Update or add more AP Exams:
+    {% endif %}
+    <br />
+    <a href="{% url 'update_apexams' %}" class="button">Update/Add AP Exams</a>
+    
 
     <h3>Personal Info</h3>
 

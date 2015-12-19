@@ -39,7 +39,8 @@ class CollegeAppForm(forms.ModelForm):
                   "comments"]
 
 class APExamForm(forms.ModelForm):
-
+    score = forms.IntegerField(max_value=5, min_value=1, widget=forms.NumberInput(attrs={"max": 5, "min": 1, "placeholder": 1}))
+    year = forms.IntegerField(max_value=2016, min_value=2013, widget=forms.NumberInput(attrs={"max": 2016, "min": 2013, "placeholder": 2015}))
     class Meta:
         model = APExam
         fields = ["name",

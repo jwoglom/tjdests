@@ -94,7 +94,7 @@
     <dl class="aps">
         {% for t in student.apexam_set.all %}
             <dt>{{ t.name }}:</dt>
-            <dd{% if t.took_class %} title="Took class"{% endif %}>{{ t.score }} ({{ t.year }}</dd>
+            <dd{% if t.took_class %} title="Took class"{% endif %}>{{ t.score }} ({{ t.year }})</dd>
         {% empty %}
             <dt>No AP Exams</dt>
             <dd>&nbsp;</dd>

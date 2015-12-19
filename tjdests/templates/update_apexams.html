@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Update/Add Schools</h2>
+    <h2>Update/Add AP Exams</h2>
     <a href="{% url 'update' %}" class="button">
         <i class='fa fa-arrow-left'></i> Update Personal Info
     </a>
@@ -19,7 +19,7 @@
 
     {% if request.GET.deleted %}
     <div class="message">
-        The school was deleted. <a href="{% url 'student' senior.id %}">View your profile</a>
+        The AP exam was deleted. <a href="{% url 'student' senior.id %}">View your profile</a>
     </div>
     {% endif %}
 
@@ -31,21 +31,22 @@
 
     <table class="college-table fancy-table">
         <tbody>
-            {% for c in senior.collegeapp_set.all %}
+            {% for t in senior.apexam_set.all %}
             <tr>
-                <th>{{ c.college.name }}</th>
+                <th>{{ t.name }}</th>
+                <td>{{ t.score }} ({{ t.year }})</td>
                 <td>
-                    <a href="{% url 'update_school' c.id %}" class="button">Update</a>
+                    <a href="{% url 'update_apexam' t.id %}" class="button">Update</a>
                 </td>
             </tr>
             {% empty %}
                 <tr>
-                    <td>You haven't added any schools! Press the button below to start.</td>
+                    <td>You haven't added any AP Exams! Press the button below to start.</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="/update_school" class="button">Add a school</a>
+    <a href="{% url 'update_apexam' %}" class="button">Add an AP Exam</a>
     <br /><br />
 
 {% endblock %}
