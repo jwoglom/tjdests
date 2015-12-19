@@ -37,7 +37,12 @@ urlpatterns = [
     url(r'^update/apexams$', views.update_apexams_view, name='update_apexams'),
     url(r'^update_apexam$', views.update_apexam_view, name='update_apexam'),
     url(r'^update_apexam/(?P<exam_id>\d+)?$', views.update_apexam_view, name='update_apexam'),
+
+    url(r'^update/sat2s$', views.update_sat2s_view, name='update_sat2s'),
+    url(r'^update_sat2$', views.update_sat2_view, name='update_sat2'),
+    url(r'^update_sat2/(?P<exam_id>\d+)?$', views.update_sat2_view, name='update_sat2'),
     
+
     url(r'^students$', views.students_view, name='students'),
     url(r'^colleges$', views.colleges_view, name='colleges'),
     url(r'^destinations$', views.destinations_view, name='destinations'),

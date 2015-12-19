@@ -35,6 +35,16 @@
     {% endif %}
     <br />
     <a href="{% url 'update_apexams' %}" class="button">Update/Add AP Exams</a>
+
+    <br /><br />
+
+    {% if senior.sat2_set.count == 0 %}
+        <b>Start adding SAT Subject Tests:</b>
+    {% else %}
+        Update or add more SAT Subject Tests:
+    {% endif %}
+    <br />
+    <a href="{% url 'update_sat2s' %}" class="button">Update/Add SAT Subject Tests</a>
     
 
     <h3>Personal Info</h3>

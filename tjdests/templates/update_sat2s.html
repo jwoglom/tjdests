@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Update/Add AP Exams</h2>
+    <h2>Update/Add SAT Subject Tests</h2>
     <a href="{% url 'update' %}" class="button">
         <i class='fa fa-arrow-left'></i> Update Personal Info
     </a>
@@ -19,7 +19,7 @@
 
     {% if request.GET.deleted %}
     <div class="message">
-        The AP exam was deleted. <a href="{% url 'student' senior.id %}">View your profile</a>
+        The Subject test was deleted. <a href="{% url 'student' senior.id %}">View your profile</a>
     </div><br /><br />
     {% endif %}
 
@@ -31,22 +31,22 @@
 
     <table class="college-table fancy-table">
         <tbody>
-            {% for t in senior.apexam_set.all %}
+            {% for t in senior.sat2_set.all %}
             <tr>
                 <th>{{ t.name }}</th>
                 <td>{{ t.score }} ({{ t.year }})</td>
                 <td>
-                    <a href="{% url 'update_apexam' t.id %}" class="button">Update</a>
+                    <a href="{% url 'update_sat2' t.id %}" class="button">Update</a>
                 </td>
             </tr>
             {% empty %}
                 <tr>
-                    <td>You haven't added any AP Exams! Press the button below to start.</td>
+                    <td>You haven't added any SAT Subject Tests! Press the button below to start.</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{% url 'update_apexam' %}" class="button">Add an AP Exam</a>
+    <a href="{% url 'update_sat2' %}" class="button">Add an SAT Subject Test</a>
     <br /><br />
 
 {% endblock %}

@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.debug import sensitive_post_parameters
-from .models import User, Senior, College, CollegeApp, APExam
-from .forms import UserForm, SeniorForm, CollegeAppForm, APExamForm
+from .models import User, Senior, College, CollegeApp, APExam, SAT2
+from .forms import UserForm, SeniorForm, CollegeAppForm, APExamForm, SAT2Form
 from .email import verify_email
 
 
@@ -219,6 +219,64 @@ def update_apexam_view(request, exam_id=None):
         "updated": updated or "updated" in request.GET
     }
     return render(request, "update_apexam.html", context)
+
+@login_required
+def update_sat2s_view(request):
+    if not request.user.is_senior:
+        return redirect("/")
+
+    senior = request.user.senior
+
+    context = {
+        "senior": senior,
+        "updated": "updated" in request.GET
+    }
+    return render(request, "update_sat2s.html", context)
+
+@login_required
+def update_sat2_view(request, exam_id=None):
+    if not request.user.is_senior:
+        return redirect("/")
+
+    updated = None
+
+    senior = request.user.senior
+
+    exam = None
+    if exam_id:
+        exam = get_object_or_404(SAT2, id=exam_id)
+        if exam.senior.user != request.user and not request.user.is_superuser:
+            return redirect("/")
+
+    if request.method == "POST":
+        if exam:
+            form = SAT2Form(instance=exam, data=request.POST)
+        else:
+            form = SAT2Form(data=request.POST)
+
+        if exam and "delete" in request.POST:
+            exam.delete()
+            return redirect("/update/sat2s?deleted=1")
+
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.senior = senior
+            obj.save()
+            updated = True
+            return redirect("/update/sat2s?updated=1")
+    elif senior:
+        form = SAT2Form(instance=exam)
+    else:
+        form = SAT2Form()
+
+    context = {
+        "form": form,
+        "senior": senior,
+        "exam": exam,
+        "updated": updated or "updated" in request.GET
+    }
+    return render(request, "update_sat2.html", context)
+
 
 
 @login_required
