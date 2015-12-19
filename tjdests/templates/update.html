@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% if senior %}Update{% else %}Add{% endif %} Personal Info</h2>
+    <h2>{% if senior %}Update{% else %}Add{% endif %} Info</h2>
 
     {% if updated %}
     <div class="message">
@@ -47,7 +47,7 @@
     <a href="{% url 'update_sat2s' %}" class="button">Update/Add SAT Subject Tests</a>
     
 
-    <h3>Personal Info</h3>
+    <h3>Update Personal Info:</h3>
 
     <form action="" method="post" class="update-form">
         {% csrf_token %}
