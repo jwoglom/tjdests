@@ -1,5 +1,9 @@
 {% extends "page_base.html" %}
 
+{% block title %}
+    {{ block.super }}: Class of 2016
+{% endblock %}
+
 {% block content %}
     {% if "verify" in request.GET %}
     <div class="message">
