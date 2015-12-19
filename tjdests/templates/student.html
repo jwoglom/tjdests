@@ -26,8 +26,8 @@
     }
 
     td.attending {
+        background-color: rgba(0,128,0,0.5);
         font-weight: bold;
-        color: green;
     }
 
     td.AC {
@@ -135,7 +135,9 @@
                 {% else %}
                     <td class="{{ c.result }}">{{ c.result_name }}</td>
                 {% endif %}
-                <th>{{ c.college.name }}</th>
+                <th><a href="{% url 'college' c.college.ceeb %}">
+                    {{ c.college.name }}
+                </a></th>
                 <td>{{ c.program }}</td>
                 <td title="{{ c.applied_name }}">{{ c.applied }}</td>
                 <td>{{ c.submitted }}</td>
