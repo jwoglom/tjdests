@@ -88,7 +88,7 @@
             </td>
             <td>
                 <dl class="scores">
-                    {% if student.gpa and student.gpa > 0%}
+                    {% if student.gpa and student.gpa > 0 %}
                         <dt>GPA:</dt>
                         <dd>{{ student.gpa }}</dd>
                     {% endif %}
@@ -109,7 +109,7 @@
             <td>
                 <dl class="sat2ap">
                     {% for t in student.sat2_set.all %}
-                        <dt>{{ t.name }}:</dt>
+                        <dt>SATII {{ t.name }}:</dt>
                         <dd>{{ t.score }} ({{ t.year }})</dd>
                     {% empty %}
                         <dt>No SAT IIs</dt>
@@ -117,8 +117,8 @@
                     {% endfor %}
 
                     {% for t in student.apexam_set.all %}
-                        <dt>{{ t.name }}:</dt>
-                        <dd{% if t.took_class %} title="Took class"{% endif %}>{{ t.score }} ({{ t.year }}</dd>
+                        <dt>AP {{ t.name }}:</dt>
+                        <dd{% if t.took_class %} title="Took class"{% endif %}>{{ t.score }} ({{ t.year }})</dd>
                     {% empty %}
                         <dt>No AP Exams</dt>
                         <dd>&nbsp;</dd>

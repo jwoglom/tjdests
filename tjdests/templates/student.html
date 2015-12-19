@@ -37,6 +37,11 @@
     td.RJ {
         color: red;
     }
+
+    h3 {
+        margin: 0;
+        text-decoration: underline;
+    }
     </style>
 {% endblock %}
 
@@ -80,7 +85,7 @@
             <dd>{{ student.act }}</dd>
         {% endif %}
     </dl>
-    <b>SAT II:</b>
+    <h3>SAT II:</h3>
     <dl class="sat2">
         {% for t in student.sat2_set.all %}
             <dt>{{ t.name }}:</dt>
@@ -90,7 +95,7 @@
             <dd>&nbsp;</dd>
         {% endfor %}
     </dl>
-    <b>AP Exams:</b>
+    <h3>AP Exams:</h3>
     <dl class="aps">
         {% for t in student.apexam_set.all %}
             <dt>{{ t.name }}:</dt>
