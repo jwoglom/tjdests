@@ -53,3 +53,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^captcha/', include('captcha.urls')),
 ]
+
+
+handler503 = 'destinations.views.maintenance_mode'

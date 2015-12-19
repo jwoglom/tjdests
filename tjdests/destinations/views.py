@@ -352,3 +352,6 @@ def college_view(request, college_ceeb):
         "college": college
     }
     return render(request, "college.html", context)
+
+def maintenance_mode(request):
+    return render(request, "unavailable.html")
