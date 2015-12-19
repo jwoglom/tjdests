@@ -31,11 +31,11 @@
     }
 
     td.AC {
-        color: green;
+        background-color: rgba(0,128,0,0.5);
     }
 
     td.RJ {
-        color: red;
+        background-color: rgba(128,0,0,0.5);
     }
 
     h3 {
@@ -130,7 +130,7 @@
             {% for c in student.collegeapp_set.all %}
             <tr>
                 {% if c.attending %}
-                    <td class="attending">Attending</td>
+                    <td class="attending"><i class='fa fa-check'></i>Attending</td>
                 {% else %}
                     <td class="{{ c.result }}">{{ c.result_name }}</td>
                 {% endif %}

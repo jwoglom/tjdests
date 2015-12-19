@@ -26,17 +26,12 @@
         padding: 3px;
     }
 
-    tr.attending > * {
-        font-weight: bold;
-        color: green;
+    tr.AC td {
+        background-color: rgba(0,128,0,0.5);
     }
 
-    tr.AC > * {
-        color: green;
-    }
-
-    tr.RJ > * {
-        color: red;
+    tr.RJ td {
+        background-color: rgba(128,0,0,0.5);
     }
     th.colleges {
         min-width: 300px;
@@ -131,8 +126,8 @@
             <td>
                 <table class="college-table" data-sortable="false">
                     {% for c in student.collegeapp_set.all %}
-                    <tr data-sortable="false" class="{% if c.attending %}attending{% else %}{{ c.result_name }}{% endif %}">
-                        <td data-sortable="false">{{ c.applied }}</td>
+                    <tr data-sortable="false" class="{% if c.attending %}attending AC{% else %}{{ c.result }}{% endif %}">
+                        <td data-sortable="false" style="text-align: center">{% if c.attending %}<i class='fa fa-check'></i>{% endif %}{{ c.applied }}</td>
                         <th data-sortable="false">{{ c.college.name }}</th>
                     </tr>
                     {% empty %}
