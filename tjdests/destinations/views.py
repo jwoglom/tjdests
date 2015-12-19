@@ -170,14 +170,14 @@ def update_school_view(request, app_id=None):
 
         if app and "delete" in request.POST:
             app.delete()
-            return redirect("/update_school?deleted=1")
+            return redirect("/update/schools?deleted=1")
 
         if form.is_valid():
             obj = form.save(commit=False)
             obj.senior = senior
             obj.save()
             updated = True
-            return redirect("/update?updated=1")
+            return redirect("/update/schools?updated=1")
     elif senior:
         form = CollegeAppForm(instance=app)
     else:
