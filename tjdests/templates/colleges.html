@@ -49,7 +49,8 @@
                 {{ college.applied_set.count }}
                 <div class="user-list">
                 {% for app in college.applied_set %}
-                    {{ app.senior.user }}<br />
+                    <a href="{% url 'student' app.senior.id %}">
+                        {{ app.senior.user }}</a><br />
                 {% endfor %}
                 </div>
             </td>
@@ -57,7 +58,8 @@
                 {{ college.attending_set.count }}
                 <div class="user-list">
                 {% for app in college.attending_set %}
-                    {{ app.senior.user }}<br />
+                    <a href="{% url 'student' app.senior.id %}">
+                        {{ app.senior.user }}</a><br />
                 {% endfor %}
                 </div>
             </td>
@@ -65,7 +67,8 @@
                 {{ college.accepted_set.count }}
                 <div class="user-list">
                 {% for app in college.accepted_set %}
-                    {{ app.senior.user }}<br />
+                    <a href="{% url 'student' app.senior.id %}">
+                        {{ app.senior.user }}</a><br />
                 {% endfor %}
                 </div>
             </td>
@@ -73,7 +76,8 @@
                 {{ college.rejected_set.count }}
                 <div class="user-list">
                 {% for app in college.rejected_set %}
-                    {{ app.senior.user }}<br />
+                    <a href="{% url 'student' app.senior.id %}">
+                        {{ app.senior.user }}</a><br />
                 {% endfor %}
                 </div>
             </td>
@@ -81,7 +85,8 @@
                 {{ college.waitlisted_set.count }}
                 <div class="user-list">
                 {% for app in college.waitlisted_set %}
-                    {{ app.senior.user }}<br />
+                    <a href="{% url 'student' app.senior.id %}">
+                        {{ app.senior.user }}</a><br />
                 {% endfor %}
                 </div>
             </td>
