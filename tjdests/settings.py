@@ -27,9 +27,12 @@ PROJECT_DIR = os.path.join(BASE_DIR, "tjdests")
 SECRET_KEY = 'ky_d66!kg3swr=&=o+8+(!^#**=ws^0uivu9&zc)ih2gvzav^$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "") == "TRUE"
 
-ALLOWED_HOSTS = []
+if not DEBUG:
+    ALLOWED_HOSTS = ("127.0.0.1",)
+else:
+    ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = "destinations.User"
 
@@ -58,6 +61,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'tjdests.middleware.access_log.AccessLogMiddleWare',
 )
 
 ROOT_URLCONF = 'tjdests.urls'
@@ -116,3 +120,90 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR, "static/"),
 )
+
+PRODUCTION = os.getenv("PRODUCTION", "") == "TRUE"
+LOG_LEVEL = "DEBUG" if not PRODUCTION else "INFO"
+_log_levels = ("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL")
+if os.getenv("LOG_LEVEL", None) in _log_levels:
+    LOG_LEVEL = os.environ["LOG_LEVEL"]
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": True,
+    "formatters": {
+        "simple": {
+            "format": "%(levelname)s: %(message)s"
+        },
+        "access": {
+            "format": "%(message)s"
+        }
+    },
+    "filters": {
+        "require_debug_false": {
+            "()": "django.utils.log.RequireDebugFalse"
+        }
+    },
+    "handlers": {
+        "mail_admins": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "django.utils.log.AdminEmailHandler",
+            "include_html": True
+        },
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "simple"
+        },
+        "console_access": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "access"
+        },
+        "access_log": {
+            "level": "DEBUG",
+            "filters": ["require_debug_false"],
+            "class": "logging.FileHandler",
+            "formatter": "access",
+            "filename": ("/var/tjdests/app_access.log" if PRODUCTION else "./app_access.log"),
+            "delay": True
+        },
+        "auth_log": {
+            "level": "DEBUG",
+            "filters": ["require_debug_false"],
+            "class": "logging.FileHandler",
+            "formatter": "access",
+            "filename": ("/var/tjdests/app_auth.log" if PRODUCTION else "./app_auth.log"),
+            "delay": True
+        },
+        "error_log": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "logging.FileHandler",
+            "delay": True,
+            "filename": ("/var/tjdests/app_error.log" if PRODUCTION else "./app_error.log")
+        },
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["mail_admins"] + (["error_log"] if PRODUCTION else []),
+            "level": "ERROR",
+            "propagate": True,
+        },
+        "tjdests": {
+            "handlers": ["console", "mail_admins"] + (["error_log"] if PRODUCTION else []),
+            "level": LOG_LEVEL,
+            "propagate": True,
+        },
+        "tjdests_access": {
+            "handlers": ["console_access"] + (["access_log"] if PRODUCTION else []),
+            "level": "DEBUG",
+            "propagate": False
+        },
+        "tjdests_auth": {
+            "handlers": ["console_access"] + (["auth_log"] if PRODUCTION else []),
+            "level": "DEBUG",
+            "propagate": False
+        }
+    }
+}

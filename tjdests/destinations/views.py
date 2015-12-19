@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 
 import uuid
+import logging
+from datetime import date, datetime
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -11,12 +13,35 @@ from .models import User, Senior, College, CollegeApp, APExam, SAT2
 from .forms import UserForm, SeniorForm, CollegeAppForm, APExamForm, SAT2Form
 from .email import verify_email
 
+auth_logger = logging.getLogger("tjdests_auth")
 
 def index_view(request):
     if request.user.is_authenticated():
         return home_view(request)
     else:
         return login_view(request)
+
+def log_auth(request, success):
+    if "HTTP_X_FORWARDED_FOR" in request.META:
+        ip = request.META["HTTP_X_FORWARDED_FOR"]
+    else:
+        ip = request.META.get("REMOTE_ADDR", "")
+
+    if isinstance(ip, set):
+        ip = ip[0]
+
+    username = request.POST.get("username", "unknown")
+
+    log_line = "{} - {} - auth {} - [{}] \"{}\" \"{}\"".format(
+        ip,
+        username,
+        success,
+        datetime.now(),
+        request.get_full_path(),
+        request.META.get("HTTP_USER_AGENT", "")
+    )
+
+    auth_logger.info(log_line)
 
 @sensitive_post_parameters("password")
 def login_view(request):
@@ -26,9 +51,13 @@ def login_view(request):
             user = form.get_user()
             if not user.verified:
                 logout(request)
+                log_auth(request, "unverified")
                 return redirect("/?unverified=1")
             login(request, user)
+            log_auth(request, True)
             return redirect("/?")
+        else:
+            log_auth(request, False)
     else:
         form = AuthenticationForm()
 
