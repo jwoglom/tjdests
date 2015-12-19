@@ -25,6 +25,19 @@
     table.fancy-table td, table.fancy-table th {
         padding: 5px 2px;
     }
+
+    td.attending {
+        background-color: rgba(0,128,0,0.5);
+        font-weight: bold;
+    }
+
+    td.AC {
+        background-color: rgba(0,128,0,0.5);
+    }
+
+    td.RJ {
+        background-color: rgba(128,0,0,0.5);
+    }
     </style>
 {% endblock %}
 
@@ -70,7 +83,11 @@
                         {{ c.senior.user.name }}
                     </a>
                 </td>
-                <td>{{ c.result_name }}</td>
+                {% if c.attending %}
+                    <td class="attending"><i class='fa fa-check'></i>Attending</td>
+                {% else %}
+                    <td class="{{ c.result }}">{{ c.result_name }}</td>
+                {% endif %}
                 <td>{{ c.program }}</td>
                 <td title="{{ c.applied_name }}">{{ c.applied }}</td>
                 <td>{{ c.senior.gpa }}</td>
