@@ -1,5 +1,14 @@
 {% extends "page_base.html" %}
 
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+    function toggle() {
+        $(".no-decision").toggle();
+    }
+    </script>
+{% endblock %}
+
 {% block css %}
     {{ block.super }}
     <style type="text/css">
@@ -21,6 +30,7 @@
 {% endblock %}
 
 {% block content %}
+    <button onclick="toggle()">Hide No Decisions</button>
     <table class="dests-table fancy-table" data-sortable>
     <thead>
         <tr>
@@ -31,7 +41,7 @@
     </thead>
     <tbody>
     {% for student in students %}
-        <tr>
+        <tr{% if not student.attending_college %} class="no-decision"{% endif %}>
             <th>
                 <a href="{% url 'student' student.id %}">{{ student.user.name }}</a>
                 <br />
