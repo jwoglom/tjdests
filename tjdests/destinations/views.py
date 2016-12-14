@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import uuid
 import logging
 from datetime import date, datetime
+from django.conf import settings
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -68,6 +69,9 @@ def login_view(request):
     return render(request, "login.html", context)
 
 def register_view(request):
+    if settings.READ_ONLY:
+        return redirect("/?noreg=1")
+
     if request.method == "POST":
         form = UserForm(data=request.POST)
         if form.is_valid():
@@ -86,6 +90,8 @@ def register_view(request):
     return render(request, "register.html", context)
 
 def verify_view(request, verify_key):
+    if settings.READ_ONLY:
+        return redirect("/?noreg=1")
     user = get_object_or_404(User, verify_key=verify_key)
     if not user.verified:
         user.verified = True
@@ -108,7 +114,7 @@ def update_view(request):
 
     senior = request.user.senior
 
-    if request.method == "POST":
+    if request.method == "POST" and not settings.READ_ONLY:
         if senior:
             form = SeniorForm(instance=senior, data=request.POST)
         else:
@@ -162,7 +168,7 @@ def update_school_view(request, app_id=None):
         if app.senior.user != request.user and not request.user.is_superuser:
             return redirect("/")
 
-    if request.method == "POST":
+    if request.method == "POST" and not settings.READ_ONLY:
         if app:
             form = CollegeAppForm(instance=app, data=request.POST)
         else:
@@ -220,7 +226,7 @@ def update_apexam_view(request, exam_id=None):
         if exam.senior.user != request.user and not request.user.is_superuser:
             return redirect("/")
 
-    if request.method == "POST":
+    if request.method == "POST" and not settings.READ_ONLY:
         if exam:
             form = APExamForm(instance=exam, data=request.POST)
         else:
@@ -277,7 +283,7 @@ def update_sat2_view(request, exam_id=None):
         if exam.senior.user != request.user and not request.user.is_superuser:
             return redirect("/")
 
-    if request.method == "POST":
+    if request.method == "POST" and not settings.READ_ONLY:
         if exam:
             form = SAT2Form(instance=exam, data=request.POST)
         else:
@@ -310,7 +316,7 @@ def update_sat2_view(request, exam_id=None):
 
 @login_required
 def home_view(request):
-    return render(request, "home.html", {})
+    return render(request, "home.html", {"read_only": settings.READ_ONLY})
 
 @login_required
 def students_view(request):

@@ -1,6 +1,11 @@
 {% extends "page_base.html" %}
 
 {% block content %}
+    {% if read_only %}
+    <div class="message">
+        <p><b>The database has been locked.</b> Data can no longer be edited. Send a message to the email address listed below if this is a problem.</p>
+    </div>
+    {% endif %}
     <p>Welcome to TJ Senior Destinations 2016, {{ request.user }}. This is intended to be a resource for:
     <ul>
         <li>the class of 2016 to share its progress in the admissions process with one another.</li>

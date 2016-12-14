@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+READ_ONLY = False
 from .settings_secret import *
 """
 Django settings for tjdests project.
@@ -28,6 +28,7 @@ PROJECT_DIR = os.path.join(BASE_DIR, "tjdests")
 DEBUG = os.getenv("DEBUG", "") == "TRUE"
 
 PRODUCTION = os.getenv("PRODUCTION", "") == "TRUE"
+
 
 if not DEBUG:
     ALLOWED_HOSTS = ("127.0.0.1",)

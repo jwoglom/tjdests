@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if "verify" in request.GET %}
+    {% if "verify" in request.GET or "unverified" in request.GET %}
     <div class="message">
         <p><b>Your account needs to be verified.</b> Check your TJHSST mailbox: <a href="https://webmail.tjhsst.edu">webmail.tjhsst.edu</a></p>
     </div>
@@ -16,6 +16,13 @@
         <p><b>Your account was verified.</b> You can log in below.</p>
     </div>
     {% endif %}
+
+    {% if "noreg" in request.GET %}
+    <div class="message">
+        <p><b>Registration is disabled.</b> Email <a href="mailto:tjdestinations<a>wogloms.net">tjdestinations&lt;at&gt;wogloms.net</a> if you would like an account.</p>
+    </div>
+    {% endif %}
+
     <p>Welcome to TJ Senior Destinations 2016. This is intended to be a resource for:
     <ul>
         <li>the class of 2016 to share its progress in the admissions process with one another.</li>
